@@ -1,15 +1,27 @@
-import { Component } from "@angular/core";
+import { Component, signal } from "@angular/core";
 
 @Component({
-  template:`
-  <h1>Counter: {{counter}}</h1>
-  <button (click)="increaseBy(1)">+1</button>
-  `
+  templateUrl: "./counter-page.component.html",
+  styles: `
+    button {
+      padding: 5px;
+      margin: 5px 10px;
+      width: 75px;
+    }`
 })
-export class CounterPageComponent{
+export class CounterPageComponent {
   counter = 10;
+  counterSignal = signal(10);
 
-  increaseBy(value: number){
+  constructor(){}
+
+  increaseBy(value: number) {
     this.counter += value;
+    this.counterSignal.update((current) => current + value);
+  }
+
+  resetCounter() {
+    this.counter = 0;
+    this.counterSignal.set(0);
   }
 }
